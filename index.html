@@ -29,7 +29,7 @@
 
 <div id="login">
   <h1>Page protégée (test hash SHA-256)</h1>
-  <p>Entrez le mot demandé.</p>
+  <p>Entrez la phrase demandée.</p>
 
   <form id="pwform" onsubmit="return false;">
     <input id="pw" type="password" autocomplete="off" placeholder="Mot secret">
@@ -3986,7 +3986,8 @@ async function sha256hex(str) {
 // --- Remplace expectedHash par le SHA-256 hex du mot attendu ---
 // Exemple : mot attendu = "bonjour" -> SHA-256 = 
 // 2cb4b1431b84ec15d35ed83bb927e27e8967d75f4bcd9cc4b25c8d879ae23e18
-const expectedHash = "2cb4b1431b84ec15d35ed83bb927e27e8967d75f4bcd9cc4b25c8d879ae23e18";
+const expectedHash = 
+"ce3f935e88abfaa1076e674bc1c700f9ac5b48d7eb1af339696e1ca3030752b4";
 
 const form = document.getElementById('pwform');
 const pwInput = document.getElementById('pw');
