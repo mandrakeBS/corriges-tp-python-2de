@@ -1,0 +1,324 @@
+% ============================================================
+%  site5.tex — Version stable (mode clair/sombre fonctionnel)
+% ============================================================
+
+\makeatletter
+\@ifundefined{HCode}{\newcommand{\HCode}[1]{}}{}
+\makeatother
+
+\documentclass[12pt,a4paper]{article}
+% --- Encodage & langue ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+% --- Polices sûres ---
+\usepackage{lmodern}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+% --- Math & symboles ---
+\usepackage{amsmath,amssymb,systeme}
+
+% --- Tableaux & couleurs ---
+\usepackage{booktabs,multirow,colortbl,tabularx,xcolor}
+
+% --- Listing ---
+%\usepackage{xcolor} %déjà défini
+\usepackage{listings}
+\lstset{
+literate=
+{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+{ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+{€}{{\EUR}}1 {£}{{\pounds}}1
+}
+\definecolor{pyrouge}{rgb}{0.77, 0.12, 0.23}
+\definecolor{pyvert}{rgb}{0.0, 0.5, 0.0}
+%========================================
+\lstdefinestyle{monstylepython1}{
+    language = Python,
+    basicstyle=\ttfamily,
+    backgroundcolor=\color{yellow!10},
+    stringstyle = {\color{string-color}},
+    keywordstyle = \color{pyvert},%blue
+    commentstyle=\color{orange},
+    keywordstyle = [2]{\color{blue}},
+    stringstyle=\color{pyrouge},%olive
+    showstringspaces=false,%true sans cette ligne
+    otherkeywords = {},
+    %morekeywords = [2]{foncAffine_g, estSurDg},
+    showstringspaces=false,%true sans cette ligne
+    numberstyle=\tiny,  
+    numbers=left,
+    stepnumber=1, 
+    numbersep=5pt,
+    %frame=single 
+    }
+    
+    \lstdefinestyle{monstylepython2}{
+    language = Python,
+    basicstyle=\ttfamily,
+    backgroundcolor=\color{blue!10},
+    stringstyle = {\color{string-color}},
+    keywordstyle = \color{pyvert},%blue
+    commentstyle=\color{orange},
+    keywordstyle = [2]{\color{blue}},
+    stringstyle=\color{pyrouge},%olive
+    showstringspaces=false,%true sans cette ligne
+    otherkeywords = {},
+    %morekeywords = [2]{foncAffine_g, estSurDg},
+    showstringspaces=false,%true sans cette ligne
+    numberstyle=\tiny,  
+    numbers=left,
+    stepnumber=1, 
+    numbersep=5pt,
+    frame=single 
+    }
+	\lstdefinestyle{monstylepython3}{
+	language = Python,
+	basicstyle=\ttfamily\small,
+  	backgroundcolor=\color{yellow!10},
+  	frame=single,
+  	numbers=left,
+  	numberstyle=\tiny,
+  	stepnumber=1,
+  	showstringspaces=false,
+  	keywordstyle=\color{blue},
+  	commentstyle=\color{gray!80!black},
+  	stringstyle=\color{red!60!black}
+	}	
+	
+% --- Graphiques (TikZ) ---
+\usepackage{tikz}
+\usetikzlibrary{arrows,patterns}
+
+% --- PDF uniquement ---
+\ifdefined\HCode
+  % rien pour HTML
+\else
+  \usepackage{geometry}
+  \geometry{margin=2cm}
+  \usepackage{fancyhdr}
+  \pagestyle{fancy}
+  \fancyhf{}
+  \fancyhead[L]{\leftmark}
+  \fancyfoot[C]{\thepage}
+  \usepackage{hyperref}
+  \usepackage{qrcode}
+\fi
+
+\newcommand{\HTML}[1]{%
+  \begingroup
+    \catcode`\<=12 % < ordinaire
+    \catcode`\>=12 % > ordinaire
+    \catcode`\!=12 % ! ordinaire
+    \catcode`\%=12 % % ordinaire
+    \catcode`\'=12 % apostrophe simple
+    \catcode`\"=12 % guillemet double
+    \HCode{#1}%
+  \endgroup}
+
+\makeatletter
+% Balise HTML : <tag> ... </tag> en HTML ; fallback lisible en PDF
+\newcommand{\Htag}[2]{%
+  \ifdefined\HCode
+    \HCode{<#1>}#2\HCode{</#1>}%
+  \else
+    \par\textbf{#2}\par
+  \fi
+}
+
+% <span class="..."> ... </span> en HTML ; fallback neutre en PDF
+\newcommand{\Hclass}[2]{%
+  \ifdefined\HCode
+    \HCode{<span class='#1'>}#2\HCode{</span>}%
+  \else
+    #2%
+  \fi
+}
+\makeatother
+
+
+% --- Métadonnées ---
+\title{Travaux Pratiques – Python}
+\author{Bruno S.}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% === Lien CSS et JS ===
+\HCode{<link rel='stylesheet' type='text/css' href='style.css'>}
+\HCode{<script src='script.js' defer></script>}
+\HCode{<button id='theme-toggle' onclick='toggleMode()'>☀️</button>}
+
+\HCode{<h1>Corrigés des Travaux Pratiques Python</h1>}
+\HCode{<p>Ces exercices peuvent être exécutés directement dans votre navigateur.
+Cliquez sur <strong>Run</strong> dans les fenêtres ci-dessous.</p>}
+%================
+%!     TP01     !
+%================
+\HCode{<div class='exercice'>}
+\HCode{<h2>TP01 – Déterminer si \(a\) est multiple de \(b\).</h2>}
+%\HCode{<p>\(a,b\in N\)</p>}
+\Htag{p}{\(a,b\in \mathbb{N}\)}
+%\HCode{<iframe src='https://trinket.io/embed/python3/123abc456'></iframe>}
+\HCode{<button data-target="corr1">Afficher / masquer une solution</button>}
+\HTML{<div id='corr1' class='correction'>}
+\HTML{<ol>}
+\HTML{<li>Des quatre résultats obtenus, on peut en déduire qu'il s'agit du reste de la division euclidienne de \(a\) par \(b\) (réponse b).</li>}
+%\HTML{<li>Les six opérations sont: </li>}
+\Htag{li}{Les six opérations sont: ==; !=, <; <=; >; >=}
+\HTML{<li>}
+\begin{lstlisting}[language=Python, style=monstylepython2, firstnumber=15]
+if a%b == 0:
+\end{lstlisting}
+\HTML{</li>}
+\HTML{</ol></div></div>}
+
+%================
+%!     TP02     !
+%================
+\HCode{<div class='exercice'>}
+\HCode{<h2>TP02 - Déterminer le plus grand multiple de \(a\) inférieur ou égal à \(b\)</h2>}
+\HCode{<p>-</p>}
+%\HCode{<iframe src='https://trinket.io/embed/python3/789xyz123'></iframe>}
+\HCode{<button data-target="corr2">Afficher / masquer une solution</button>}
+\HCode{<div id='corr2' class='correction'>}
+\lstinputlisting[language=Python, style=monstylepython3]{Python_et_notebook/TP02_corr.py}
+\HCode{</div></div>}
+
+%================
+%!     TP03     !
+%================
+\HCode{<div class='exercice'>}
+\HCode{<h2>TP03 - Déterminer si un entier naturel est premier (calcul brut)</h2>}
+\HCode{<p>-</p>}
+%\HCode{<iframe src='https://trinket.io/embed/python3/789xyz123'></iframe>}
+\HCode{<button data-target="corr3">Afficher / masquer une solution</button>}
+\HCode{<div id='corr3' class='correction'><pre>}
+\lstinputlisting[language=Python, style=monstylepython1]{Python_et_notebook/TP03_corr.py}
+\HCode{</pre></div></div>}
+
+%================
+%!     TP04     !
+%================
+\HCode{<div class='exercice'>}
+\HCode{<h2>TP04 - Déterminer si un entier naturel est premier (exploitation du "critère de primalité")</h2>}
+\HCode{<p>-</p>}
+\HCode{<iframe src='https://trinket.io/embed/python3/789xyz123'></iframe>}
+\HCode{<button data-target="corr4">Afficher / masquer une solution</button>}
+\HCode{<div id='corr4' class='correction'><pre>}
+\lstinputlisting[language=Python, style=monstylepython1]{Python_et_notebook/TP04_corr.py}
+\HCode{</pre></div></div>}
+
+%================
+%!     TP05     !
+%================
+\HCode{<div class='exercice'>}
+\HCode{<h2>TP05 - Déterminer la première puissance d'un nombre positif donné supérieure ou inférieure à une valeur donnée</h2>}
+\HCode{<p>-</p>}
+\HCode{<iframe src='https://trinket.io/embed/python3/789xyz123'></iframe>}
+\HCode{<button data-target="corr5">Afficher / masquer une solution</button>}
+\HCode{<div id='corr5' class='correction'><pre>}
+\lstinputlisting[language=Python, style=monstylepython1]{Python_et_notebook/TP05_corr.py}
+\HCode{</pre></div></div>}
+
+%================
+%!     TP06     !
+%================
+\HCode{<div class='exercice'>}
+\HCode{<h2>TP06 - Approximation numérique d'un extremum d'une fonction (par balayage)</h2>}
+\HCode{<p>-</p>}
+\HCode{<iframe src='https://trinket.io/embed/python3/789xyz123'></iframe>}
+\HCode{<button data-target="corr6">Afficher / masquer une solution</button>}
+\HCode{<div id='corr6' class='correction'><pre>}
+\lstinputlisting[language=Python, style=monstylepython1]{Python_et_notebook/TP06_corr.py}
+\HCode{</pre></div></div>}
+
+%================
+%!     TP07     !
+%================
+\HCode{<div class='exercice'>}
+\HCode{<h2>TP07 - Approximation numérique d'un extremum d'une fonction (par dichotomie)</h2>}
+\HCode{<p>-</p>}
+\HCode{<iframe src='https://trinket.io/embed/python3/789xyz123'></iframe>}
+\HCode{<button data-target="corr7">Afficher / masquer une solution</button>}
+\HCode{<div id='corr7' class='correction'><pre>}
+\lstinputlisting[language=Python, style=monstylepython1]{Python_et_notebook/TP07_corr.py}
+\HCode{</pre></div></div>}
+
+%================
+%!     TP08     !
+%================
+\HCode{<div class='exercice'>}
+\Htag{h2}{TP08 - Détermination d'un encadrement de $ \sqrt{2} $
+d'amplitude $ d\leqslant 10^{-n} $ (par balayage)}
+\HCode{<p>-</p>}
+\HCode{<iframe src='https://trinket.io/embed/python3/789xyz123'></iframe>}
+\HCode{<button data-target="corr8">Afficher / masquer une solution</button>}
+\HCode{<div id='corr8' class='correction'><pre>}
+\lstinputlisting[language=Python, style=monstylepython1]{Python_et_notebook/TP08_corr.py}
+\HCode{</pre></div></div>}
+
+%================
+%!     TP09     !
+%================
+\HCode{<div class='exercice'>}
+\Htag{h2}{TP09 - Détermination d'un encadrement de $ \sqrt{2} $
+d'amplitude $ d\leqslant 10^{-n} $ (par dichotomie)}
+\HCode{<p>-</p>}
+\HCode{<iframe src='https://trinket.io/embed/python3/789xyz123'></iframe>}
+\HCode{<button data-target="corr9">Afficher / masquer une solution</button>}
+\HCode{<div id='corr9' class='correction'><pre>}
+\lstinputlisting[language=Python, style=monstylepython1]{Python_et_notebook/TP09_corr.py}
+\HCode{</pre></div></div>}
+
+%================
+%!     TP10     !
+%================
+\HCode{<div class='exercice'>}
+\HCode{<h2>TP10 - Étudier l'alignement de trois points dans le plan (en calculant l'aire d'un triangle)</h2>}
+\HCode{<p>-</p>}
+\HCode{<iframe src='https://trinket.io/embed/python3/789xyz123'></iframe>}
+\HCode{<button data-target="corr10">Afficher / masquer une solution</button>}
+\HCode{<div id='corr10' class='correction'><pre>}
+\lstinputlisting[language=Python, style=monstylepython1]{Python_et_notebook/TP10_corr.py}
+\HCode{</pre></div></div>}
+
+%================
+%!     TP11     !
+%================
+\HCode{<div class='exercice'>}
+\HCode{<h2>TP11 - Étudier l'alignement de trois points dans le plan (en calculant un déterminant)</h2>}
+\HCode{<p>-</p>}
+\HCode{<iframe src='https://trinket.io/embed/python3/789xyz123'></iframe>}
+\HCode{<button data-target="corr11">Afficher / masquer une solution</button>}
+\HCode{<div id='corr11' class='correction'><pre>}
+\lstinputlisting[language=Python, style=monstylepython1]{Python_et_notebook/TP11_corr.py}
+\HCode{</pre></div></div>}
+
+%================
+%!     TP12     !
+%================
+\HCode{<div class='exercice'>}
+\HCode{<h2>TP12 - Résolution d'un système de deux équations du premier degré à deux inconnues)</h2>}
+\HCode{<p>-</p>}
+\HCode{<iframe src='https://trinket.io/embed/python3/789xyz123'></iframe>}
+\HCode{<button data-target="corr12">Afficher / masquer une solution</button>}
+\HCode{<div id='corr12' class='correction'><pre>}
+%\lstinputlisting[language=Python, style=monstylepython1]{Python_et_notebook/TP12_corr.py}
+\HCode{</pre></div></div>}
+
+\HCode{<footer>© 2025 – Corrigés et programmes créés par Bruno S.</footer>}
+
+\end{document}

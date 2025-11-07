@@ -1,0 +1,105 @@
+/* ============================================================
+   Feuille de style pour site5.html
+   Compatible HTML généré par TeX4ht / make4ht
+   Auteur : Bruno S.
+   Date : 2025
+   ============================================================ */
+
+/* ----- Mode clair par défaut ----- */
+:root {
+  color-scheme: light dark;
+  --bg: #f7f8fa;
+  --text: #222;
+  --accent: #ea9904;
+  --button: #daab03;
+  --button-hover: #02aa2c;
+  --card-bg: #ffffff;
+  --code-bg: #f8f8b5;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* ----- Mode sombre forcé ----- */
+body.dark-mode {
+  --bg: #121212;
+  --text: #e0e0e0;
+  --accent: #f5b63d;
+  --button: #02aa2c;
+  --button-hover: #5cd35c;
+  --card-bg: #1e1e1e;
+  --code-bg: #2c2c2c;
+  --shadow: rgba(255, 255, 255, 0.08);
+}
+
+/* Structure générale */
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  margin: 40px auto;
+  max-width: 900px;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Titres */
+h1, h2 {
+  color: var(--accent);
+}
+
+/* Boutons généraux */
+button {
+  background-color: var(--button);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+button:hover {
+  background-color: var(--button-hover);
+}
+
+/* Exercices */
+.exercice {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 0 8px var(--shadow);
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+/* Corrections masquées */
+.correction {
+  display: none;
+  background: var(--card-bg);
+  padding: 1em;
+  margin-top: 0.5em;
+  border-radius: 8px;
+  box-shadow: 0 0 5px var(--shadow);
+}
+.correction.visible {
+  display: block;
+}
+
+/* Bouton clair/sombre flottant */
+#theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: var(--button);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0.5rem 0.6rem;
+  box-shadow: 0 0 6px var(--shadow);
+  transition: background-color 0.3s, transform 0.2s;
+  z-index: 9999;
+}
+#theme-toggle:hover {
+  background-color: var(--button-hover);
+  transform: scale(1.1);
+}
